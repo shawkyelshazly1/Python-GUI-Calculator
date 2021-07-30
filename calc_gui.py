@@ -7,12 +7,14 @@ from tkinter import ttk
 class Application(object):
 
     def __init__(self, root):
+        self.root = root
         self.current_typing = ''
         self.prev_result = ''
         self.calc_obj = Calculator_app()
         self.init_window(root)
         self.init_buttons(root)
         self.init_result_screen(root)
+        self.get_keyboard_events(root)
 
     # Initializing the window along with setting weights to columns and rows for responsive design
 
@@ -98,10 +100,35 @@ class Application(object):
         self.button_sum = ttk.Button(
             root, text='+', command=lambda: self.calc_obj.select_math_operator('+'), style='my.TButton').grid(row=6, column=3, sticky=(N, S, E, W), padx=1, pady=1)
         self.button_result = ttk.Button(
-            root, text='=', command=lambda: self.calc_obj.computation(), style='my.TButton').grid(row=6, column=2, sticky=(N, S, E, W), padx=1, pady=1)
+            root, text='=', command=lambda: self.calc_obj.press_equal(), style='my.TButton').grid(row=6, column=2, sticky=(N, S, E, W), padx=1, pady=1)
 
     def type_digit(self, digit):
         return lambda: self.calc_obj.typing(digit)
+
+    def get_keyboard_events(self, root):
+        root.bind('<KeyPress-0>', lambda e: self.calc_obj.typing('0'))
+        root.bind('<KeyPress-1>', lambda e: self.calc_obj.typing('1'))
+        root.bind('<KeyPress-2>', lambda e: self.calc_obj.typing('2'))
+        root.bind('<KeyPress-3>', lambda e: self.calc_obj.typing('3'))
+        root.bind('<KeyPress-4>', lambda e: self.calc_obj.typing('4'))
+        root.bind('<KeyPress-5>', lambda e: self.calc_obj.typing('5'))
+        root.bind('<KeyPress-6>', lambda e: self.calc_obj.typing('6'))
+        root.bind('<KeyPress-7>', lambda e: self.calc_obj.typing('7'))
+        root.bind('<KeyPress-8>', lambda e: self.calc_obj.typing('8'))
+        root.bind('<KeyPress-9>', lambda e: self.calc_obj.typing('9'))
+        root.bind('<KeyPress-.>', lambda e: self.calc_obj.add_decimal_point())
+        root.bind('<KeyPress-+>',
+                  lambda e: self.calc_obj.select_math_operator('+'))
+        root.bind('<KeyPress-->',
+                  lambda e: self.calc_obj.select_math_operator('-'))
+        root.bind('<KeyPress-/>',
+                  lambda e: self.calc_obj.select_math_operator('/'))
+        root.bind('<KeyPress-*>',
+                  lambda e: self.calc_obj.select_math_operator('*'))
+        root.bind('<KeyPress-*>',
+                  lambda e: self.calc_obj.select_math_operator('*'))
+        root.bind('<KeyPress-Return>',
+                  lambda e: self.calc_obj.press_equal())
 
 
 root = Tk()

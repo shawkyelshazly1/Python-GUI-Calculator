@@ -14,6 +14,7 @@ class Calculator_app(object):
     '''
 
     def __init__(self):
+        self.pressed_equal_Flag = False
         self.result = 0
         self.tkinter_lower = tkinter.StringVar()
         self.tkinter_upper = tkinter.StringVar()
@@ -53,10 +54,18 @@ class Calculator_app(object):
             self.right += str(digit)
             self.tkinter_lower.set(self.right)
             print('right: ' + str(self.right))
+        elif self.pressed_equal_Flag:
+            self.clear_selections()
+            self.left += str(digit)
+            self.tkinter_lower.set(self.left)
+            print('left: ' + str(self.left))
+            self.pressed_equal_Flag = False
         else:
             self.left += str(digit)
             self.tkinter_lower.set(self.left)
             print('left: ' + str(self.left))
+
+        self.pressed_equal_Flag = False
 
     # Selecting Math operator based on what was pressed triggered by GUI
     def select_math_operator(self, operator):
@@ -105,6 +114,8 @@ class Calculator_app(object):
         self.right = ''
         self.left = self.result
 
+        print("left here: " + str(self.left))
+
     def substract(self):
         if self.decimal_flag:
             self.result = float(self.left) - float(self.right)
@@ -114,6 +125,7 @@ class Calculator_app(object):
         self.change_tkinter_vars_on_equal()
         self.right = ''
         self.left = self.result
+
         print("left here: " + str(self.left))
 
     def divide(self):
@@ -126,6 +138,8 @@ class Calculator_app(object):
         self.right = ''
         self.left = self.result
 
+        print("left here: " + str(self.left))
+
     def multiply(self):
         if self.decimal_flag:
             self.result = float(self.left) * float(self.right)
@@ -134,6 +148,8 @@ class Calculator_app(object):
         self.change_tkinter_vars_on_equal()
         self.right = ''
         self.left = self.result
+
+        print("left here: " + str(self.left))
 
     # Updates tkinter GUI vars with values on equal button press
     def change_tkinter_vars_on_equal(self):
@@ -178,3 +194,8 @@ class Calculator_app(object):
                 self.typing('.')
         else:
             pass
+
+    def press_equal(self):
+        self.computation()
+        self.math_operator_selected = False
+        self.pressed_equal_Flag = True
